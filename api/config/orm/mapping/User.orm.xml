@@ -11,9 +11,23 @@
         <field name="token" length="100" nullable="true"/>
         <field name="active" type="boolean"/>
         <field name="resetPasswordToken" length="100" nullable="true"/>
-        <field name="createdAt" type="datetime"/>
+        <field name="registeredAt" type="datetime"/>
         <field name="updatedAt" type="datetime"/>
         <field name="lastLogin" type="datetime" nullable="true"/>
+
+        <many-to-many field="skills" target-entity="App\Entity\Skill">
+            <cascade>
+                <cascade-remove/>
+            </cascade>
+            <join-table name="user_skill">
+                <join-columns>
+                    <join-column name="user_id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="skill_id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
 
         <lifecycle-callbacks>
             <lifecycle-callback type="preUpdate" method="markAsUpdated"/>

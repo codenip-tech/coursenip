@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Entity\Course" table="course">
+        <id name="id" type="string" length="36"/>
+
+        <field name="imagePath" length="300"/>
+        <field name="name" length="50"/>
+        <field name="slug" length="50"/>
+        <field name="description" type="text" length="2000"/>
+        <field name="duration" type="smallint"/>
+        <field name="createDate" type="datetime"/>
+        <field name="updateDate" type="datetime"/>
+        <field name="score" type="smallint"/>
+
+        <many-to-one field="creator" target-entity="App\Entity\User"/>
+
+        <many-to-many field="requirements" target-entity="App\Entity\Skill">
+            <cascade>
+                <cascade-remove/>
+            </cascade>
+            <join-table name="course_requirement">
+                <join-columns>
+                    <join-column name="course_id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="skill_id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <many-to-many field="results" target-entity="App\Entity\Skill">
+            <cascade>
+                <cascade-remove/>
+            </cascade>
+            <join-table name="course_result">
+                <join-columns>
+                    <join-column name="course_id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="skill_id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="preUpdate" method="markAsUpdated"/>
+        </lifecycle-callbacks>
+    </entity>
+</doctrine-mapping>
