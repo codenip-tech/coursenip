@@ -1,4 +1,4 @@
-# Courses
+# Coursenip
 
 ## Services
 - API
