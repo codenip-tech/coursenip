@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Entity\Skill" table="skill">
+        <id name="id" type="string" length="36"/>
+
+        <field name="name" length="50"/>
+        <field name="slug" length="50"/>
+    </entity>
+</doctrine-mapping>

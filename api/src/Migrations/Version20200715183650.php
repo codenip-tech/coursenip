@@ -16,23 +16,23 @@ final class Version20200715183650 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('
-            CREATE TABLE `user` (
-                id CHAR(36) NOT NULL PRIMARY KEY,
-                name VARCHAR(50) NOT NULL,
-                slug VARCHAR(50) DEFAULT NULL,
-                email VARCHAR(100) NOT NULL,
-                password VARCHAR(100) DEFAULT NULL,
-                avatar VARCHAR(255) DEFAULT NULL,
-                token VARCHAR(100) DEFAULT NULL,
-                active TINYINT(1) DEFAULT 0,
-                reset_password_token VARCHAR(100) DEFAULT NULL,
-                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                last_login DATETIME DEFAULT NULL,
-                INDEX IDX_user_email (email),
-                CONSTRAINT U_user_email UNIQUE KEY (email)
-            ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB'
+        $this->addSql(
+            'CREATE TABLE `user` (
+                    id CHAR(36) NOT NULL PRIMARY KEY,
+                    name VARCHAR(50) NOT NULL,
+                    slug VARCHAR(50) DEFAULT NULL,
+                    email VARCHAR(100) NOT NULL,
+                    password VARCHAR(100) DEFAULT NULL,
+                    avatar VARCHAR(255) DEFAULT NULL,
+                    token VARCHAR(100) DEFAULT NULL,
+                    active TINYINT(1) DEFAULT 0,
+                    reset_password_token VARCHAR(100) DEFAULT NULL,
+                    registered_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    last_login DATETIME DEFAULT NULL,
+                    INDEX IDX_user_email (email),
+                    CONSTRAINT U_user_email UNIQUE KEY (email)
+                ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB'
         );
     }
 
