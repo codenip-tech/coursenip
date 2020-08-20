@@ -7,6 +7,8 @@ namespace App\Api\Action\User;
 use App\Entity\User;
 use App\Service\Request\RequestService;
 use App\Service\User\UserRegisterService;
+use App\Value\Email;
+use App\Value\NonEmptyString;
 use Symfony\Component\HttpFoundation\Request;
 
 class Register
@@ -21,8 +23,8 @@ class Register
     public function __invoke(Request $request): User
     {
         return $this->userRegisterService->create(
-            RequestService::getField($request, 'name'),
-            RequestService::getField($request, 'email'),
+            new NonEmptyString(RequestService::getField($request, 'name')),
+            new Email(RequestService::getField($request, 'email')),
             RequestService::getField($request, 'password')
         );
     }

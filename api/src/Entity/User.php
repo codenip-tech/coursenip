@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Value\Email;
+use App\Value\NonEmptyString;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -22,10 +24,10 @@ class User implements UserInterface
     private \DateTime $updatedAt;
     private ?\DateTime $lastLogin;
 
-    public function __construct(string $name, string $email)
+    public function __construct(NonEmptyString $name, Email $email)
     {
         $this->id = Uuid::v4()->toRfc4122();
-        $this->name = $name;
+        $this->setName($name);
         $this->setEmail($email);
         $this->password = null;
         $this->avatar = null;
@@ -41,14 +43,14 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): NonEmptyString
     {
-        return $this->name;
+        return new NonEmptyString($this->name);
     }
 
-    public function setName(string $name): void
+    public function setName(NonEmptyString $name): void
     {
-        $this->name = $name;
+        $this->name = $name->getValue();
     }
 
     public function getSlug(): ?string
@@ -61,18 +63,14 @@ class User implements UserInterface
         $this->slug = $slug;
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
-        return $this->email;
+        return new Email($this->email);
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(Email $email): void
     {
-        if (!\filter_var($email, \FILTER_VALIDATE_EMAIL)) {
-            throw new \LogicException('Invalid email', 409);
-        }
-
-        $this->email = $email;
+        $this->email = $email->getValue();
     }
 
     public function getPassword(): ?string

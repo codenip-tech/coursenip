@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Messenger\Message;
 
+use App\Value\Email;
+use App\Value\NonEmptyString;
+
 class UserRegisteredMessage
 {
     private string $id;
@@ -11,11 +14,11 @@ class UserRegisteredMessage
     private string $email;
     private string $token;
 
-    public function __construct(string $id, string $name, string $email, string $token)
+    public function __construct(string $id, NonEmptyString $name, Email $email, string $token)
     {
         $this->id = $id;
-        $this->name = $name;
-        $this->email = $email;
+        $this->name = $name->getValue();
+        $this->email = $email->getValue();
         $this->token = $token;
     }
 

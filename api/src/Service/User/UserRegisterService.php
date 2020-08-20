@@ -10,6 +10,8 @@ use App\Messenger\Message\UserRegisteredMessage;
 use App\Messenger\RoutingKey;
 use App\Repository\UserRepository;
 use App\Service\Password\EncoderService;
+use App\Value\Email;
+use App\Value\NonEmptyString;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -29,7 +31,7 @@ class UserRegisterService
         $this->messageBus = $messageBus;
     }
 
-    public function create(string $name, string $email, $password): User
+    public function create(NonEmptyString $name, Email $email, $password): User
     {
         $user = new User($name, $email);
         $user->setPassword($this->encoderService->generateEncodedPassword($user, $password));

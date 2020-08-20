@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Messenger\Message;
 
+use App\Value\Email;
+
 class RequestResetPasswordMessage
 {
     private string $id;
     private string $email;
     private string $resetPasswordToken;
 
-    public function __construct(string $id, string $email, string $resetPasswordToken)
+    public function __construct(string $id, Email $email, string $resetPasswordToken)
     {
         $this->id = $id;
-        $this->email = $email;
+        $this->email = $email->getValue();
         $this->resetPasswordToken = $resetPasswordToken;
     }
 
