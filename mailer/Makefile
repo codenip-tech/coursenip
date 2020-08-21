@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKER_BE = courses-mailer
+DOCKER_BE = coursenip-mailer
 OS := $(shell uname)
 
 ifeq ($(OS),Darwin)
@@ -18,7 +18,7 @@ help: ## Show this help message
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
 run: ## Start the containers
-	docker network create courses-network || true
+	docker network create coursenip-network || true
 	cp -n .env .env.local || true
 	cp -n docker-compose.yml.dist docker-compose.yml || true
 	U_ID=${UID} docker-compose up -d
