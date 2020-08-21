@@ -1,0 +1,65 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.4.6-fpm
+      - image: circleci/mysql:8
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: user
+          MYSQL_PASSWORD: passw0rd
+
+    steps:
+      - checkout
+      
+      - run:
+          # Our primary container isn't MYSQL so run a sleep command until it's ready.
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 20`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      - run: sudo docker-php-ext-install zip pdo pdo_mysql
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: "Install Dependencies"
+          command: composer install -n --prefer-dist
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+
+      # install certs
+      - run:
+          name: "Install certs"
+          command: |
+              mkdir -p config/jwt
+              openssl genrsa -passout pass:767b453a97ac019714eb7ccbce781d16 -out config/jwt/private.pem -aes256 4096
+              openssl rsa -pubout -passin pass:767b453a97ac019714eb7ccbce781d16 -in config/jwt/private.pem -out config/jwt/public.pem
+      # run tests with phpunit
+      - run:
+          name: "Run tests"
+          command: |
+            mkdir -p ~/phpunit
+            composer test
+          environment:
+              DATABASE_URL: mysql://user:passw0rd@127.0.0.1:3306/test_db?serverVersion=8
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/phpunit
