@@ -57,4 +57,9 @@ class CourseEnrollment
     {
         $this->watchedLessons->add($lesson);
     }
+
+    public function belongsTo(User $user): bool
+    {
+        return $this->user->getId() === $user->getId();
+    }
 }

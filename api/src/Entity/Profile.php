@@ -155,4 +155,9 @@ class Profile
     {
         $this->youtube = $youtube;
     }
+
+    public function belongsTo(User $user): bool
+    {
+        return $this->user->getId() === $user->getId();
+    }
 }

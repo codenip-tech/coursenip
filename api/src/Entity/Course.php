@@ -141,4 +141,9 @@ class Course
     {
         return $this->results;
     }
+
+    public function belongsTo(User $user): bool
+    {
+        return $this->creator->getId() === $user->getId();
+    }
 }
