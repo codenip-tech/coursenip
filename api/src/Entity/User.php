@@ -26,6 +26,7 @@ class User implements UserInterface
     private \DateTime $updatedAt;
     private ?\DateTime $lastLogin;
     private Collection $skills;
+    private Collection $profiles;
 
     public function __construct(string $name, string $email)
     {
@@ -41,6 +42,7 @@ class User implements UserInterface
         $this->registeredAt = new \DateTime();
         $this->markAsUpdated();
         $this->skills = new ArrayCollection();
+        $this->profiles = new ArrayCollection();
     }
 
     public function getId(): string
@@ -168,6 +170,24 @@ class User implements UserInterface
     public function removeSkill(Skill $skill): void
     {
         $this->skills->removeElement($skill);
+    }
+
+    /**
+     * @return Collection|Profile[]
+     */
+    public function getProfiles(): Collection
+    {
+        return $this->profiles;
+    }
+
+    public function addProfile(Profile $profile): void
+    {
+        $this->profiles->add($profile);
+    }
+
+    public function removeProfile(Profile $profile): void
+    {
+        $this->profiles->removeElement($profile);
     }
 
     public function getRoles(): array

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKER_BE = courses-be
+DOCKER_BE = coursenip-be
 OS := $(shell uname)
 
 ifeq ($(OS),Darwin)
@@ -18,7 +18,7 @@ help: ## Show this help message
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
 run: ## Start the containers
-	docker network create courses-network || true
+	docker network create coursenip-network || true
 	cp -n .env .env.local || true
 	cp -n docker-compose.yml.dist docker-compose.yml || true
 	U_ID=${UID} docker-compose up -d
@@ -63,4 +63,7 @@ generate-ssh-keys: ## Generates SSH keys for the JWT library
 	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} openssl genrsa -passout pass:767b453a97ac019714eb7ccbce781d16 -out config/jwt/private.pem -aes256 4096
 	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} openssl rsa -pubout -passin pass:767b453a97ac019714eb7ccbce781d16 -in config/jwt/private.pem -out config/jwt/public.pem
 
-.PHONY: migrations
+tests: ## Run all tests in the application
+	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} bin/phpunit
+
+.PHONY: migrations tests

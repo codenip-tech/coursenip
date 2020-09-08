@@ -1,6 +1,6 @@
 {
-    "name": "juanwilde/courses",
-    "description": "API for courses platform",
+    "name": "juanwilde/coursenip",
+    "description": "API for coursenip platform",
     "type": "project",
     "license": "proprietary",
     "require": {

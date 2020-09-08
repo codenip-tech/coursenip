@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   rabbit:
-    container_name: courses-rabbitmq
+    container_name: coursenip-rabbitmq
     build:
       context: ./docker
       args:
@@ -13,8 +13,8 @@ services:
       - 5672:5672
       - 15672:15672
     networks:
-      - courses-network
+      - coursenip-network
 
 networks:
-  courses-network:
+  coursenip-network:
     external: true

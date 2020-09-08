@@ -1,6 +1,6 @@
 {
-    "name": "juanwilde/courses-mailer",
-    "description": "Mailer service for Udemy course",
+    "name": "juanwilde/coursenip-mailer",
+    "description": "Mailer service for Coursenip",
     "type": "project",
     "license": "proprietary",
     "require": {
