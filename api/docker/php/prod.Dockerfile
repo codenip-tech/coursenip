@@ -15,6 +15,8 @@ RUN composer self-update
 RUN composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
 	&& composer clear-cache
 
+RUN a2enmod rewrite
+
 WORKDIR /app
 
 ENV APACHE_DOCUMENT_ROOT /app/public
