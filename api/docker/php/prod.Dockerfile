@@ -27,4 +27,4 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 COPY api/composer.* ./
 RUN composer install --no-dev
 COPY api/ ./
-RUN bin/console assets:install -e prod
+RUN bin/console assets:install
