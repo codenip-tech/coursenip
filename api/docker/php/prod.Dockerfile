@@ -1,5 +1,5 @@
 FROM php:7.4.6-apache
-ENV APP_ENV=prod
+
 COPY /api/docker/php/php.ini /usr/local/etc/php/php.ini
 
 RUN apt-get update \
