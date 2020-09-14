@@ -20,10 +20,17 @@ RUN a2enmod rewrite
 WORKDIR /app
 
 ENV APACHE_DOCUMENT_ROOT /app/public
+ENV APP_ENV prod
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 COPY api/composer.* ./
-RUN composer install
+RUN composer install --no-dev
 COPY api/ ./
 RUN bin/console assets:install
+
+RUN mkdir -p config/jwt
+RUN openssl genrsa -passout pass:767b453a97ac019714eb7ccbce781d16 -out config/jwt/private.pem -aes256 4096
+RUN openssl rsa -pubout -passin pass:767b453a97ac019714eb7ccbce781d16 -in config/jwt/private.pem -out config/jwt/public.pem
+
+RUN bin/console cache:clear
