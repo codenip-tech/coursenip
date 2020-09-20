@@ -1,0 +1,20 @@
+App\Entity\Lesson:
+  attributes:
+    id:
+      groups: [lesson_read]
+    name:
+      groups: [lesson_read, lesson_create, lesson_update]
+    slug:
+      groups: [lesson_read]
+    videoProvider:
+      groups: [lesson_read, lesson_create, lesson_update]
+    videoId:
+      groups: [lesson_read, lesson_create, lesson_update]
+    description:
+      groups: [lesson_read, lesson_create, lesson_update]
+    duration:
+      groups: [lesson_read, lesson_create, lesson_update]
+    requirements:
+      groups: [lesson_read, lesson_create, lesson_update]
+    results:
+      groups: [lesson_read]

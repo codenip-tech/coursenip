@@ -1,0 +1,25 @@
+App\Entity\Profile:
+  attributes:
+    normalization_context:
+      groups: [profile_read]
+  collectionOperations:
+    get:
+      method: GET
+      security: is_granted("PROFILE_LIST")
+    post:
+      method: POST
+      security: is_granted("PROFILE_CREATE")
+      denormalization_context:
+        groups: [profile_create]
+  itemOperations:
+    get:
+      method: GET
+      security: is_granted("PROFILE_READ", object)
+    put:
+      method: PUT
+      security: is_granted("PROFILE_UPDATE", object)
+      denormalization_context:
+        groups: [profile_update]
+    delete:
+      method: DELETE
+      security: is_granted("PROFILE_DELETE", object)

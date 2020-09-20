@@ -1,6 +1,6 @@
 {
-    "name": "juanwilde/courses",
-    "description": "API for courses platform",
+    "name": "juanwilde/coursenip",
+    "description": "API for coursenip platform",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "api-platform/api-pack": "^1.2",
+        "cocur/slugify": "^4.0",
         "lexik/jwt-authentication-bundle": "^2.8",
         "symfony/amqp-messenger": "5.1.*",
         "symfony/console": "5.1.*",

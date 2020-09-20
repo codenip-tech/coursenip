@@ -6,6 +6,10 @@ namespace App\Entity;
 
 use App\Value\Email;
 use App\Value\NonEmptyString;
+use App\Exception\Email\EmailException;
+use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -13,29 +17,34 @@ class User implements UserInterface
 {
     private string $id;
     private string $name;
-    private ?string $slug;
+    private string $slug;
     private string $email;
     private ?string $password;
     private ?string $avatar;
     private ?string $token;
     private ?string $resetPasswordToken;
     private bool $active;
-    private \DateTime $createdAt;
+    private \DateTime $registeredAt;
     private \DateTime $updatedAt;
     private ?\DateTime $lastLogin;
+    private Collection $skills;
+    private Collection $profiles;
 
     public function __construct(NonEmptyString $name, Email $email)
     {
         $this->id = Uuid::v4()->toRfc4122();
         $this->setName($name);
+        $this->slug = Slugify::create()->slugify($name);
         $this->setEmail($email);
         $this->password = null;
         $this->avatar = null;
         $this->token = \sha1(\uniqid());
         $this->resetPasswordToken = null;
         $this->active = false;
-        $this->createdAt = new \DateTime();
+        $this->registeredAt = new \DateTime();
         $this->markAsUpdated();
+        $this->skills = new ArrayCollection();
+        $this->profiles = new ArrayCollection();
     }
 
     public function getId(): string
@@ -56,11 +65,6 @@ class User implements UserInterface
     public function getSlug(): ?string
     {
         return $this->slug;
-    }
-
-    public function setSlug(?string $slug): void
-    {
-        $this->slug = $slug;
     }
 
     public function getEmail(): Email
@@ -123,9 +127,9 @@ class User implements UserInterface
         $this->active = $active;
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getRegisteredAt(): \DateTime
     {
-        return $this->createdAt;
+        return $this->registeredAt;
     }
 
     public function getUpdatedAt(): \DateTime
@@ -148,6 +152,42 @@ class User implements UserInterface
         $this->lastLogin = $lastLogin;
     }
 
+    /**
+     * @return Collection|Skill[]
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): void
+    {
+        $this->skills->add($skill);
+    }
+
+    public function removeSkill(Skill $skill): void
+    {
+        $this->skills->removeElement($skill);
+    }
+
+    /**
+     * @return Collection|Profile[]
+     */
+    public function getProfiles(): Collection
+    {
+        return $this->profiles;
+    }
+
+    public function addProfile(Profile $profile): void
+    {
+        $this->profiles->add($profile);
+    }
+
+    public function removeProfile(Profile $profile): void
+    {
+        $this->profiles->removeElement($profile);
+    }
+
     public function getRoles(): array
     {
         return [];
@@ -164,5 +204,10 @@ class User implements UserInterface
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function equals(User $user): bool
+    {
+        return $this->id === $user->getId();
     }
 }

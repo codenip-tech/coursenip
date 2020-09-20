@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Entity\CourseEnrollment" table="course_enrollment">
+        <id name="id" type="string" length="36"/>
+
+        <field name="enrollmentDate" type="datetime"/>
+
+        <many-to-one field="user" target-entity="App\Entity\User"/>
+        <many-to-one field="course" target-entity="App\Entity\Course"/>
+
+        <many-to-many field="watchedLessons" target-entity="App\Entity\Lesson">
+            <cascade>
+                <cascade-remove/>
+            </cascade>
+            <join-table name="course_enrollment_lesson">
+                <join-columns>
+                    <join-column name="course_enrollment_id"/>
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="lesson_id"/>
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </entity>
+</doctrine-mapping>

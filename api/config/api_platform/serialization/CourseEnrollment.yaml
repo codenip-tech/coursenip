@@ -1,0 +1,12 @@
+App\Entity\CourseEnrollment:
+  attributes:
+    id:
+      groups: [course_enrollment_read]
+    enrollmentDate:
+      groups: [course_enrollment_read]
+    user:
+      groups: [course_enrollment_read]
+    course:
+      groups: [course_enrollment_read]
+    watchedLessons:
+      groups: [course_enrollment_read]

@@ -1,0 +1,24 @@
+App\Entity\Course:
+  attributes:
+    id:
+      groups: [course_read]
+    imagePath:
+      groups: [course_read, course_create, course_update]
+    name:
+      groups: [course_read, course_create, course_update]
+    slug:
+      groups: [course_read, course_create, course_update]
+    description:
+      groups: [course_read, course_create, course_update]
+    duration:
+      groups: [course_read, course_create, course_update]
+    createDate:
+      groups: [course_read]
+    updateDate:
+      groups: [course_read]
+    score:
+      groups: [course_read]
+    requirements:
+      groups: [course_read, course_create, course_update]
+    results:
+      groups: [course_read]

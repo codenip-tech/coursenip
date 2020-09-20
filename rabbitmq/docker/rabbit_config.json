@@ -5,7 +5,7 @@
   "product_version": "3.8.5",
   "users": [
     {
-      "name": "courses",
+      "name": "coursenip",
       "password_hash": "wsRf5JGRu5X4RyLktsIpTesr0iZDd3ppsplolxIlLI4k5vzu",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
       "tags": "administrator"
@@ -13,13 +13,13 @@
   ],
   "vhosts": [
     {
-      "name": "courses_vhost"
+      "name": "coursenip_vhost"
     }
   ],
   "permissions": [
     {
-      "user": "courses",
-      "vhost": "courses_vhost",
+      "user": "coursenip",
+      "vhost": "coursenip_vhost",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
@@ -41,8 +41,8 @@
   "queues": [],
   "exchanges": [
     {
-      "name": "courses_exchange",
-      "vhost": "courses_vhost",
+      "name": "coursenip_exchange",
+      "vhost": "coursenip_vhost",
       "type": "direct",
       "durable": true,
       "auto_delete": false,

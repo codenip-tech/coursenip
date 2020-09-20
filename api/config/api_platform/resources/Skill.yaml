@@ -1,0 +1,23 @@
+App\Entity\Skill:
+  attributes:
+    normalization_context:
+      groups: [skill_read]
+  collectionOperations:
+    get:
+      method: GET
+      security: is_granted("SKILL_LIST")
+    post:
+      method: POST
+      security: is_granted("SKILL_CREATE")
+  itemOperations:
+    get:
+      method: GET
+      security: is_granted("SKILL_READ", object)
+    put:
+      method: PUT
+      security: is_granted("SKILL_UPDATE", object)
+      denormalization_context:
+        groups: [skill_update]
+    delete:
+      method: DELETE
+      security: is_granted("SKILL_DELETE", object)

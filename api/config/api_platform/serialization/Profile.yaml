@@ -1,0 +1,26 @@
+App\Entity\profile:
+  attributes:
+    id:
+      groups: [profile_read]
+    type:
+      groups: [profile_read]
+    user:
+      groups: [profile_read]
+    name:
+      groups: [profile_read, profile_create, profile_update]
+    lastName:
+      groups: [profile_read, profile_create, profile_update]
+    title:
+      groups: [profile_read, profile_create, profile_update]
+    bio:
+      groups: [profile_read, profile_create, profile_update]
+    website:
+      groups: [profile_read, profile_create, profile_update]
+    twitter:
+      groups: [profile_read, profile_create, profile_update]
+    facebook:
+      groups: [profile_read, profile_create, profile_update]
+    linkedin:
+      groups: [profile_read, profile_create, profile_update]
+    youtube:
+      groups: [profile_read, profile_create, profile_update]

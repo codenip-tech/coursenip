@@ -1,0 +1,23 @@
+App\Entity\CourseEnrollment:
+  attributes:
+    normalization_context:
+      groups: [course_enrollment_read]
+  collectionOperations:
+    get:
+      method: GET
+      security: is_granted("COURSE_ENROLLMENT_LIST")
+    post:
+      method: POST
+      security: is_granted("COURSE_ENROLLMENT_CREATE")
+  itemOperations:
+    get:
+      method: GET
+      security: is_granted("COURSE_ENROLLMENT_READ", object)
+    put:
+      method: PUT
+      security: is_granted("COURSE_ENROLLMENT_UPDATE", object)
+      denormalization_context:
+        groups: [course_enrollment_update]
+    delete:
+      method: DELETE
+      security: is_granted("COURSE_ENROLLMENT_DELETE", object)

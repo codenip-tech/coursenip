@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  courses-web:
-    container_name: courses-web
+  coursenip-web:
+    container_name: coursenip-web
     build:
       context: ./docker/nginx
       args:
@@ -12,12 +12,12 @@ services:
     volumes:
       - ./public:/appdata/www/public
     depends_on:
-      - courses-be
+      - coursenip-be
     networks:
-      - courses-network
+      - coursenip-network
 
-  courses-be:
-    container_name: courses-be
+  coursenip-be:
+    container_name: coursenip-be
     build:
       context: docker/php
       args:
@@ -33,30 +33,30 @@ services:
       #      - ./docker/php/xdebug-macos.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
     depends_on:
-      - courses-db
+      - coursenip-db
     networks:
-      - courses-network
+      - coursenip-network
 
-  courses-db:
-    container_name: courses-db
+  coursenip-db:
+    container_name: coursenip-db
     build:
       context: ./docker/database
     ports:
       - 31000:3306
     environment:
-      MYSQL_DATABASE: courses
+      MYSQL_DATABASE: coursenip
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
     command: mysqld --sql_mode="STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"
     volumes:
-      - courses-db-data:/var/lib/mysql
+      - coursenip-db-data:/var/lib/mysql
     networks:
-      - courses-network
+      - coursenip-network
 
 volumes:
-  courses-db-data:
+  coursenip-db-data:
 
 networks:
-  courses-network:
+  coursenip-network:
     external: true

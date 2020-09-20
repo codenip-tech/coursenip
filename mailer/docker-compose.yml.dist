@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  courses-mailer:
-    container_name: courses-mailer
+  coursenip-mailer:
+    container_name: coursenip-mailer
     build:
       context: docker/php
       args:
@@ -18,12 +18,12 @@ services:
       #      - ./docker/php/xdebug-macos.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
     depends_on:
-      - courses-mailer-db
+      - coursenip-mailer-db
     networks:
-      - courses-network
+      - coursenip-network
 
-  courses-mailer-db:
-    container_name: courses-mailer-db
+  coursenip-mailer-db:
+    container_name: coursenip-mailer-db
     image: mysql:8.0
     ports:
       - 31100:3306
@@ -34,24 +34,24 @@ services:
       MYSQL_ROOT_PASSWORD: root
     command: mysqld --sql_mode="STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"
     volumes:
-      - courses-mailer-db-data:/var/lib/mysql
+      - coursenip-mailer-db-data:/var/lib/mysql
     networks:
-      - courses-network
+      - coursenip-network
 
-  courses-mailcatcher:
-      container_name: courses-mailcatcher
+  coursenip-mailcatcher:
+      container_name: coursenip-mailcatcher
       image: schickling/mailcatcher
       ports:
         - 1080:1080
         - 1025:1025
       depends_on:
-        - courses-mailer-db
+        - coursenip-mailer-db
       networks:
-        - courses-network
+        - coursenip-network
 
 volumes:
-  courses-mailer-db-data:
+  coursenip-mailer-db-data:
 
 networks:
-  courses-network:
+  coursenip-network:
     external: true

@@ -1,0 +1,23 @@
+App\Entity\Lesson:
+  attributes:
+    normalization_context:
+      groups: [lesson_read]
+  collectionOperations:
+    get:
+      method: GET
+      security: is_granted("LESSON_LIST")
+    post:
+      method: POST
+      security: is_granted("LESSON_CREATE")
+  itemOperations:
+    get:
+      method: GET
+      security: is_granted("LESSON_READ", object)
+    put:
+      method: PUT
+      security: is_granted("LESSON_UPDATE", object)
+      denormalization_context:
+        groups: [lesson_update]
+    delete:
+      method: DELETE
+      security: is_granted("LESSON_DELETE", object)

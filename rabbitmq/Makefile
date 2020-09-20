@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RABBIT = courses-rabbitmq
+RABBIT = coursenip-rabbitmq
 UID = $(shell id -u)
 
 help: ## Show this help message

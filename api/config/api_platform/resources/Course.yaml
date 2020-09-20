@@ -1,0 +1,23 @@
+App\Entity\Course:
+  attributes:
+    normalization_context:
+      groups: [course_read]
+  collectionOperations:
+    get:
+      method: GET
+      security: is_granted("COURSE_LIST")
+    post:
+      method: POST
+      security: is_granted("COURSE_CREATE")
+  itemOperations:
+    get:
+      method: GET
+      security: is_granted("COURSE_READ", object)
+    put:
+      method: PUT
+      security: is_granted("COURSE_UPDATE", object)
+      denormalization_context:
+        groups: [course_update]
+    delete:
+      method: DELETE
+      security: is_granted("COURSE_DELETE", object)

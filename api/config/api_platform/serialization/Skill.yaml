@@ -1,0 +1,8 @@
+App\Entity\Skill:
+  attributes:
+    id:
+      groups: [skill_read]
+    name:
+      groups: [skill_read, skill_create, skill_update]
+    slug:
+      groups: [skill_read]
