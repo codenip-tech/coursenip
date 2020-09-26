@@ -4,12 +4,14 @@ DOCKER_BE = coursenip-be
 OS = $(shell uname)
 UID = $(shell id -u)
 
+NAMESERVER_IP = $(shell ip address | grep docker0)
+
 ifeq ($(OS),Darwin)
 	NAMESERVER_IP = host.docker.internal
-else ifeq ($(OS),Linux)
-	NAMESERVER_IP = 172.17.0.1
-else
+else ifeq ($(NAMESERVER_IP),)
 	NAMESERVER_IP = $(shell grep nameserver /etc/resolv.conf  | cut -d ' ' -f2)
+else
+	NAMESERVER_IP = 172.17.0.1
 endif
 
 help: ## Show this help message
