@@ -1,14 +1,15 @@
 #!/bin/bash
 
 DOCKER_BE = coursenip-mailer
-OS := $(shell uname)
+OS = $(shell uname)
+UID = $(shell id -u)
 
 ifeq ($(OS),Darwin)
-	UID = $(shell id -u)
-else ifeq ($(OS),Linux)
-	UID = $(shell id -u)
+	NAMESERVER_IP = host.docker.internal
+else ifeq ($(NAMESERVER_IP),)
+	NAMESERVER_IP = $(shell grep nameserver /etc/resolv.conf  | cut -d ' ' -f2)
 else
-	UID = 1000
+	NAMESERVER_IP = 172.17.0.1
 endif
 
 help: ## Show this help message
@@ -21,7 +22,7 @@ run: ## Start the containers
 	docker network create coursenip-network || true
 	cp -n .env .env.local || true
 	cp -n docker-compose.yml.dist docker-compose.yml || true
-	U_ID=${UID} docker-compose up -d
+	U_ID=${UID} HOST=${NAMESERVER_IP} docker-compose up -d
 
 stop: ## Stop the containers
 	U_ID=${UID} docker-compose stop
@@ -30,7 +31,7 @@ restart: ## Restart the containers
 	$(MAKE) stop && $(MAKE) run
 
 build: ## Rebuilds all the containers
-	U_ID=${UID} docker-compose build
+	U_ID=${UID} HOST=${NAMESERVER_IP} docker-compose build
 
 prepare: ## Runs backend commands
 	$(MAKE) composer-install
