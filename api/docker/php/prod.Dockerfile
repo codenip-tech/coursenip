@@ -22,5 +22,5 @@ COPY api/composer.* ./
 RUN composer install --no-dev
 COPY api/ ./
 RUN bin/console assets:install
-
-RUN bin/console cache:clear
+RUN rm -rf var/*
+RUN chown www-data: var
