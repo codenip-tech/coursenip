@@ -7,7 +7,7 @@ framework:
                 context: { }
         transports:
             amqp_user:
-                dsn: '%env(string:MESSENGER_TRANSPORT_DSN)%%env(string:MESSENGER_TRANSPORT_DSN_PLACEHOLDER)%'
+                dsn: '%env(string:MESSENGER_TRANSPORT_DSN)%'
                 options:
                     vhost: '%env(string:MESSENGER_VHOST)%'
                     exchange:
