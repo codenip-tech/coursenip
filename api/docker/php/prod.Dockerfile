@@ -23,8 +23,4 @@ RUN composer install --no-dev
 COPY api/ ./
 RUN bin/console assets:install
 
-RUN mkdir -p config/jwt
-RUN openssl genrsa -passout pass:767b453a97ac019714eb7ccbce781d16 -out config/jwt/private.pem -aes256 4096
-RUN openssl rsa -pubout -passin pass:767b453a97ac019714eb7ccbce781d16 -in config/jwt/private.pem -out config/jwt/public.pem
-
 RUN bin/console cache:clear
