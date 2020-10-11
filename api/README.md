@@ -27,3 +27,8 @@ dokku ps:restart coursenip-be
 
 dokku mysql:create coursenip -I 8.0
 dokku mysql:link coursenip coursenip-be
+dokku rabbitmq:create coursenip -I 3-management
+dokku rabbitmq:link coursenip coursenip-be -a MESSENGER_TRANSPORT_DSN
+
+# Remember nginx caches the ip of coursenip-be container
+dokku ps:restart coursenip-web
