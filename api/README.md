@@ -21,3 +21,25 @@ openssl genrsa -passout pass:$JWT_PASS -out $JWT_PATH -aes256 4096
 openssl rsa -pubout -passin pass:$JWT_PASS -in $JWT_PATH -out config/jwt/public.pem
 dokku storage:mount coursenip-be /var/lib/dokku/data/storage/coursenip-be/config/jwt:/appdata/www/config/jwt
 dokku ps:restart coursenip-be
+
+dokku plugin:install https://github.com/dokku/dokku-mysql.git mysql
+dokku mysql:create coursenip -I 8.0
+dokku mysql:link coursenip coursenip-be
+
+dokku plugin:install https://github.com/dokku/dokku-rabbitmq.git rabbitmq
+dokku rabbitmq:create coursenip -I 3-management
+dokku rabbitmq:link coursenip coursenip-be
+
+# Create the .env file in /var/lib/dokku/data/storage/coursenip-be/
+dokku storage:mount coursenip-be /var/lib/dokku/data/storage/coursenip-be/.env:/appdata/www/.env
+dokku ps:restart coursenip-be
+
+# Enter coursenip-be container with docker exec
+bin/console doctrine:migrations:migrate
+echo $RABBITMQ_URL # Here you get the username pass for the next step
+
+dokku rabbitmq:expose coursenip
+# Check which host port is mapped to container's port 15672
+# Go to your host with that port
+# Import rabbit_config.prod.json in rabbitmq directory
+dokku rabbitmq:unexpose coursenip

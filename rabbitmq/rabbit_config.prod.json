@@ -1,0 +1,46 @@
+{
+  "rabbit_version": "3.8.5",
+  "rabbitmq_version": "3.8.5",
+  "product_name": "RabbitMQ",
+  "product_version": "3.8.5",
+  "vhosts": [
+    {
+      "name": "coursenip"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "coursenip",
+      "vhost": "coursenip",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "topic_permissions": [],
+  "parameters": [],
+  "global_parameters": [
+    {
+      "name": "cluster_name",
+      "value": "rabbit@fd38dcae1c87"
+    },
+    {
+      "name": "internal_cluster_id",
+      "value": "rabbitmq-cluster-id-09BUxXzudkpJk9RdrH94fQ"
+    }
+  ],
+  "policies": [],
+  "queues": [],
+  "exchanges": [
+    {
+      "name": "coursenip_exchange",
+      "vhost": "coursenip",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": []
+}
