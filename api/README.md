@@ -7,6 +7,13 @@ dokku apps:create coursenip-web
 ### Add dockerfile path
 dokku docker-options:add coursenip-be build '--file api/docker/php/prod.Dockerfile'
 dokku docker-options:add coursenip-web build '--file api/docker/nginx/prod.Dockerfile'
+### Upload the code
+DOKKU_URL=dokku.codenip.tech
+git remote add coursenip-be dokku@$DOKKU_URL:coursenip-be
+git remote add coursenip-web dokku@$DOKKU_URL:coursenip-web
+MY_BRANCH=master
+git push coursenip-be $MY_BRANCH:master
+git push coursenip-web $MY_BRANCH:master
 ### Create the network and attach the apps to it
 dokku network:create coursenip-network
 dokku network:set cournseip-web attach-post-create coursenip-network
