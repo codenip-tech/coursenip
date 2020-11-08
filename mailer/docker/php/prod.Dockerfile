@@ -19,8 +19,9 @@ WORKDIR /appdata/www
 
 ENV APP_ENV prod
 COPY mailer/composer.* ./
-RUN composer install --no-dev
+RUN composer install --no-dev --no-scripts
 COPY mailer/ ./
+RUN composer run post-install-cmd
 RUN rm -rf var/*
 RUN chown www-data: var
 
