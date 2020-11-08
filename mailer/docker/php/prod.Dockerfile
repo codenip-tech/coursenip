@@ -1,6 +1,6 @@
 FROM php:7.4.6-fpm
 
-COPY /api/docker/php/php.ini /usr/local/etc/php/php.ini
+COPY /mailer/docker/php/php.ini /usr/local/etc/php/php.ini
 
 RUN apt-get update \
     && apt-get install -y git acl openssl openssh-client wget zip vim librabbitmq-dev libssh-dev \
@@ -9,7 +9,7 @@ RUN apt-get update \
     && pecl install amqp \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache amqp
 
-RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
+RUN curl --insecure https://getcomposer.org/composer-1.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
 RUN composer self-update
 
 RUN composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative \
@@ -18,9 +18,10 @@ RUN composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress
 WORKDIR /appdata/www
 
 ENV APP_ENV prod
-COPY api/composer.* ./
+COPY mailer/composer.* ./
 RUN composer install --no-dev
-COPY api/ ./
-RUN bin/console assets:install
+COPY mailer/ ./
 RUN rm -rf var/*
 RUN chown www-data: var
+
+CMD bin/console messenger:consume amqp_user
