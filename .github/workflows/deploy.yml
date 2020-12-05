@@ -18,3 +18,4 @@ jobs:
           ssh-private-key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
           dokku-host: 'dokku.codenip.tech'
           app-name: 'coursenip-be'
+          git-push-flags: --force
