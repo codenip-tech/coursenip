@@ -230,6 +230,21 @@
     "sebastian/recursion-context": {
         "version": "4.0.2"
     },
+    "sentry/sentry": {
+        "version": "2.5.1"
+    },
+    "sentry/sentry-symfony": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "9746f0823302d7980e5273ef7a69ef3f5ac80914"
+        },
+        "files": [
+            "config/packages/sentry.yaml"
+        ]
+    },
     "symfony/amqp-messenger": {
         "version": "v5.1.2"
     },

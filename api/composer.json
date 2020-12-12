@@ -11,6 +11,7 @@
         "api-platform/api-pack": "^1.2",
         "cocur/slugify": "^4.0",
         "lexik/jwt-authentication-bundle": "^2.8",
+        "sentry/sentry-symfony": "^3.5",
         "symfony/amqp-messenger": "5.1.*",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
