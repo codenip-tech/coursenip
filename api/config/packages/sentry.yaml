@@ -6,3 +6,4 @@ sentry:
     options:
         excluded_exceptions:
             - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+            - 'App\Exception\User\UserAlreadyExistException'
