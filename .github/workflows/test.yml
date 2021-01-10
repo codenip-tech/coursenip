@@ -15,7 +15,7 @@ jobs:
       - run: docker-compose pull
       - run: cd api && make run && make composer-install
       - uses: satackey/action-docker-layer-caching@v0.0.11
-          # Ignore the failure of a step and avoid terminating the job.
-          continue-on-error: true
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
       - name: Run tests
         run: cd api && make tests
