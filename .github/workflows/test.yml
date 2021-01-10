@@ -15,6 +15,6 @@ jobs:
       - name: Prepare docker-compose
         run: cd api && make run && make prepare
         env:
-          SYMFONY_ENV: test
+          APP_ENV: test
       - name: Run tests
         run: cd api && make tests
