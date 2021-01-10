@@ -61,15 +61,14 @@ code-style: ## Runs php-cs to fix code styling following Symfony rules
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} php-cs-fixer fix src --rules=@Symfony
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} php-cs-fixer fix tests --rules=@Symfony
 
-create-database:
-  U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/console doctrine:database:create --if-not-exists
-
 generate-ssh-keys: ## Generates SSH keys for the JWT library
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} mkdir -p config/jwt
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} openssl genrsa -passout pass:767b453a97ac019714eb7ccbce781d16 -out config/jwt/private.pem -aes256 4096
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} openssl rsa -pubout -passin pass:767b453a97ac019714eb7ccbce781d16 -in config/jwt/private.pem -out config/jwt/public.pem
 
 tests: ## Run all tests in the application
+  U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/console --env=test doctrine:database:create --if-not-exists
+  U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/console --env=test doctrine:migrations:migrate -n
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/phpunit
 
 .PHONY: migrations tests
