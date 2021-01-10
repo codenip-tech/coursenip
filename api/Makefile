@@ -37,6 +37,7 @@ build: ## Rebuilds all the containers
 
 prepare: ## Runs backend commands
 	$(MAKE) composer-install
+	$(MAKE) create-database
 	$(MAKE) migrations
 	$(MAKE) assets
 
@@ -61,6 +62,8 @@ code-style: ## Runs php-cs to fix code styling following Symfony rules
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} php-cs-fixer fix src --rules=@Symfony
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} php-cs-fixer fix tests --rules=@Symfony
 
+create-database:
+  U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/console doctrine:database:create --if-not-exists
 
 generate-ssh-keys: ## Generates SSH keys for the JWT library
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} mkdir -p config/jwt
