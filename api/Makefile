@@ -42,30 +42,30 @@ prepare: ## Runs backend commands
 
 # Backend commands
 composer-install: ## Installs composer dependencies
-	U_ID=${UID} docker exec --user ${UID} -it ${DOCKER_BE} composer install --no-scripts --no-interaction --optimize-autoloader
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} composer install --no-scripts --no-interaction --optimize-autoloader
 
 migrations: ## Runs the migrations
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} bin/console doctrine:migrations:migrate -n
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/console doctrine:migrations:migrate -n
 
 assets: ## Install API Platform assets
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} bin/console assets:install
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/console assets:install
 
 be-logs: ## Tails the Symfony dev log
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} tail -f var/log/dev.log
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} tail -f var/log/dev.log
 # End backend commands
 
 ssh-be: ## ssh's into the be container
 	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} bash
 
 code-style: ## Runs php-cs to fix code styling following Symfony rules
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} php-cs-fixer fix src --rules=@Symfony
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} php-cs-fixer fix tests --rules=@Symfony
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} php-cs-fixer fix src --rules=@Symfony
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} php-cs-fixer fix tests --rules=@Symfony
 
 
 generate-ssh-keys: ## Generates SSH keys for the JWT library
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} mkdir -p config/jwt
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} openssl genrsa -passout pass:767b453a97ac019714eb7ccbce781d16 -out config/jwt/private.pem -aes256 4096
-	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} openssl rsa -pubout -passin pass:767b453a97ac019714eb7ccbce781d16 -in config/jwt/private.pem -out config/jwt/public.pem
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} mkdir -p config/jwt
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} openssl genrsa -passout pass:767b453a97ac019714eb7ccbce781d16 -out config/jwt/private.pem -aes256 4096
+	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} openssl rsa -pubout -passin pass:767b453a97ac019714eb7ccbce781d16 -in config/jwt/private.pem -out config/jwt/public.pem
 
 tests: ## Run all tests in the application
 	U_ID=${UID} docker exec --user ${UID} ${DOCKER_BE} bin/phpunit
