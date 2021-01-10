@@ -37,7 +37,6 @@ build: ## Rebuilds all the containers
 
 prepare: ## Runs backend commands
 	$(MAKE) composer-install
-	$(MAKE) create-database
 	$(MAKE) migrations
 	$(MAKE) assets
 
